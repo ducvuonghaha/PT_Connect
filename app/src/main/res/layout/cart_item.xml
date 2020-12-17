@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:background="#C1ECA3"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgProductOrder"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:id="@+id/tvNameProductOrder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="BCAA Promax"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgProductOrder"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:id="@+id/tvPriceOrder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="150.000 VND"
+        app:layout_constraintStart_toEndOf="@+id/imgProductOrder"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameProductOrder" />
+
+    <ImageView
+        android:id="@+id/imgDelProductOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameProductOrder"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_delete_24dp" />
+
+    <ImageView
+        android:id="@+id/imgAddQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvQuantityOrder"
+        app:layout_constraintTop_toBottomOf="@+id/tvPriceOrder"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/add" />
+
+    <ImageView
+        android:id="@+id/imgSubQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/tvQuantityOrder"
+        app:layout_constraintStart_toEndOf="@+id/imgProductOrder"
+        app:layout_constraintTop_toBottomOf="@+id/tvPriceOrder"
+        app:srcCompat="@drawable/ic_baseline_remove_24" />
+
+    <TextView
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:id="@+id/tvQuantityOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="8dp"
+        android:text="1"
+        app:layout_constraintEnd_toStartOf="@+id/imgAddQuantity"
+        app:layout_constraintStart_toEndOf="@+id/imgSubQuantity"
+        app:layout_constraintTop_toBottomOf="@+id/tvPriceOrder" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

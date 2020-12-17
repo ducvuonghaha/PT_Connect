@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#01240a</color>
+    <color name="colorPrimaryDark">#021f05</color>
+    <color name="colorAccent">#64ef04</color>
+    <color name="colorTransprentWhite">#cccccc</color>
+    <color name="colorDot">#64ef04</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorTextInCart">#ffffff</color>
+    <color name="colorGray">#AFAFAF</color>
+    <color name="colorRed">#F60B0B</color>
+    <color name="colorWhite">#FFF</color>
+    <color name="colorBackgroundLighterBlack">#3F3D3D</color>
+    <color name="colorCardInHome">#2B2929</color>
+    <color name="colorTextInSearch">#707070</color>
+    <color name="colorGold">#ffcc33</color>
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="220dp"
+    android:layout_height="160dp"
+    android:layout_marginStart="20dp"
+    app:cardBackgroundColor="@color/colorCardInHome"
+    app:cardCornerRadius="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="110dp">
+
+            <ImageView
+                android:alpha="0.4"
+                android:id="@+id/imvImageLesson"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/lesson_1_home"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_baseline_play_circle_filled_24"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvTitleLesson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="BÀI TẬP MÔNG QUẢ ĐÀO | KHẮC PHỤC MÔNG HÓP | 30 phút HIP DIP"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
