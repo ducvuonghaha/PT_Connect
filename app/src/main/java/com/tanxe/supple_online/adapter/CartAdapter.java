@@ -43,6 +43,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHoler> {
         return orderHoler;
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull CartHoler holder, int position) {
         productInCartDAO = new ProductInCartDAO(context);
