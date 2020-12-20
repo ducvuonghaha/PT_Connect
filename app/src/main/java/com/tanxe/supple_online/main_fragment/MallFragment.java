@@ -85,13 +85,10 @@ public class MallFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getProduct();
-                getSoldProduct();
-            }
-        }, 4000);
+
+        getProduct();
+        getSoldProduct();
+
         int images[] = {R.drawable.banner1, R.drawable.banner2, R.drawable.banner3};
         for (int image : images) {
             flipperImages(image);
@@ -170,7 +167,13 @@ public class MallFragment extends Fragment {
     private void getProduct() {
         productsList = new ArrayList<>();
         productsList.clear();
-        getHotProduct();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getHotProduct();
+            }
+        }, 2000);
+
         productsAdapter = new ProductsAdapter(getContext(), productsList);
         rcvListHotProduct.setAdapter(productsAdapter);
         gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.HORIZONTAL, false);
@@ -185,7 +188,12 @@ public class MallFragment extends Fragment {
     private void getSoldProduct() {
         soldProductList = new ArrayList<>();
         soldProductList.clear();
-        getSoldProductFromServer();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getSoldProductFromServer();
+            }
+        }, 2000);
         soldProductsAdapter = new SoldProductsAdapter(getActivity().getBaseContext(), soldProductList);
         rcvListSoldProduct.setAdapter(soldProductsAdapter);
         gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.HORIZONTAL, false);

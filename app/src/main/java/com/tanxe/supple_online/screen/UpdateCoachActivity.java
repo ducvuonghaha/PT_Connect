@@ -26,9 +26,12 @@ import com.tanxe.supple_online.R;
 import com.tanxe.supple_online.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.tanxe.supple_online.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,8 +47,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-
 import static com.tanxe.supple_online.screen.LoginActivity.BASE_URL;
+
 
 public class UpdateCoachActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 100;
@@ -54,6 +57,7 @@ public class UpdateCoachActivity extends AppCompatActivity {
     private Button btnSelectImage, btnUpdateCoach;
     private EditText edtAddressCoach, edtBackground, edtAge;
     ImageView imgProfile;
+    Bitmap selectedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,6 @@ public class UpdateCoachActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/jpeg");
-
                 try {
                     startActivityForResult(intent, REQUEST_CODE);
 
@@ -77,6 +80,41 @@ public class UpdateCoachActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+
+            }
+        });
+        btnUpdateCoach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences1 = getSharedPreferences("My Token", MODE_PRIVATE);
+                String token = sharedPreferences1.getString("token", "");
+                List<String> specializeds = new ArrayList<>();
+                String specialized = spnSpecialized.getSelectedItem().toString();
+                specializeds.add(specialized);
+                Intent intent = getIntent();
+                String fullname = intent.getStringExtra("fullname");
+
+                String place = spnAddress.getSelectedItem().toString();
+                SharedPreferences sharedPreferences = getSharedPreferences("My Data", MODE_PRIVATE);
+                String id = sharedPreferences.getString("id", "");
+                String username = sharedPreferences.getString("username", "");
+                String address = edtAddressCoach.getText().toString();
+                String background = edtBackground.getText().toString();
+                String age = edtAge.getText().toString();
+                if (age.isEmpty()) {
+                    edtAge.setError("Không được để trống");
+                    edtAge.requestFocus();
+                } else if (address.isEmpty()) {
+                    edtAddressCoach.setError("Không được để trống");
+                    edtAddressCoach.requestFocus();
+                } else if (background.isEmpty()) {
+                    edtBackground.setError("Không được để trống");
+                    edtBackground.requestFocus();
+                } else if (selectedImage == null) {
+                    Toast.makeText(UpdateCoachActivity.this, "Mời bạn chọn ảnh đại diện", Toast.LENGTH_SHORT).show();
+                } else {
+                    upload( id, fullname, place, age, specialized, background, "Updating", token, username, address);
+                }
 
             }
         });
@@ -89,59 +127,26 @@ public class UpdateCoachActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                InputStream inputStream1 = getContentResolver().openInputStream(data.getData());
-                Bitmap selectedImage = BitmapFactory.decodeStream(inputStream1);
-                imgProfile.setImageBitmap(selectedImage);
-                btnUpdateCoach.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            SharedPreferences sharedPreferences1 = getSharedPreferences("My Token", MODE_PRIVATE);
-                            String token = sharedPreferences1.getString("token", "");
-                            List<String> specializeds = new ArrayList<>();
-                            String specialized = spnSpecialized.getSelectedItem().toString();
-                            specializeds.add(specialized);
-                            Intent intent = getIntent();
-                            String fullname = intent.getStringExtra("fullname");
+            if (resultCode==RESULT_OK)
+                try {
+                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                    InputStream inputStream1 = getContentResolver().openInputStream(data.getData());
+                    selectedImage = BitmapFactory.decodeStream(inputStream1);
+                    imgProfile.setImageBitmap(selectedImage);
 
-                            String place = spnAddress.getSelectedItem().toString();
-                            SharedPreferences sharedPreferences = getSharedPreferences("My Data", MODE_PRIVATE);
-                            String id = sharedPreferences.getString("id", "");
-                            String username = sharedPreferences.getString("username", "");
-                            String address = edtAddressCoach.getText().toString();
-                            String background = edtBackground.getText().toString();
-                            String age = edtAge.getText().toString();
-                            if (age.isEmpty()) {
-                                edtAge.setError("Không được để trống");
-                                edtAge.requestFocus();
-                            } else if (address.isEmpty()) {
-                                edtAddressCoach.setError("Không được để trống");
-                                edtAddressCoach.requestFocus();
-                            } else if (background.isEmpty()) {
-                                edtBackground.setError("Không được để trống");
-                                edtBackground.requestFocus();
-                            } else if (getBytes(inputStream).length == 0) {
-                                Toast.makeText(UpdateCoachActivity.this, "Mời bạn chọn ảnh đại diện", Toast.LENGTH_SHORT).show();
-                            } else {
-                                upload(getBytes(inputStream), id, fullname, place, age, specialized, background, "Updating", token, username, address);
-                            }
 
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+
         }
 
     }
 
-    private void upload(byte[] imageBytes, String id, String fullname,
-                        String workplace, String age, String specialized, String background, String status, String token, String username, String address) {
+    private void upload( String id, String fullname,
+                         String workplace, String age, String specialized,
+                         String background, String status, String token, String username, String address) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
@@ -156,8 +161,21 @@ public class UpdateCoachActivity extends AppCompatActivity {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("exImage", Math.random() + " image.jpg", requestFile);
+        File filesDir = getApplicationContext().getFilesDir();
+        File file = new File(filesDir, "image" + ".jpeg");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        selectedImage.compress(Bitmap.CompressFormat.JPEG, 0, bos);
+        byte[] bitmapdata = bos.toByteArray();
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("exImage", file.getName(), requestFile);
         RequestBody idPart = RequestBody.create(MultipartBody.FORM, id);
         RequestBody fullnamePart = RequestBody.create(MultipartBody.FORM, fullname);
         RequestBody workplacePart = RequestBody.create(MultipartBody.FORM, workplace);
@@ -172,51 +190,43 @@ public class UpdateCoachActivity extends AppCompatActivity {
         uploadService.updateCoach(body, idPart, fullnamePart, workplacePart, agePart, specializedPart, backgroundPart, statusPart, tokenPart, usernamenPart, addressPart).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                if (response.body().equals("kích thước file lớn hơn 2mb")){
+                    Toast.makeText(UpdateCoachActivity.this, "File không được quá 2MB", Toast.LENGTH_SHORT).show();
+                }else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UpdateCoachActivity.this);
+                    View view = LayoutInflater.from(UpdateCoachActivity.this).inflate(R.layout.it_noti, null, false);
+                    builder.setTitle("Thông báo");
+                    builder.setView(view);
+                    builder.setCancelable(false);
+                    AlertDialog dialog = builder.show();
+                    TextView tvNoti;
+                    Button btnOk;
+                    tvNoti = (TextView) view.findViewById(R.id.tvNoti);
+                    btnOk = (Button) view.findViewById(R.id.btnOk);
+                    tvNoti.setText("Hồ sơ của bạn sẽ được phê duyệt trong 24h");
+                    btnOk.setText("Đồng ý");
+                    btnOk.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(UpdateCoachActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                }
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateCoachActivity.this);
-                View view = LayoutInflater.from(UpdateCoachActivity.this).inflate(R.layout.it_noti, null, false);
-                builder.setTitle("Thông báo");
-                builder.setView(view);
-                builder.setCancelable(false);
-                AlertDialog dialog = builder.show();
-                TextView tvNoti;
-                Button btnOk;
-                tvNoti = (TextView) view.findViewById(R.id.tvNoti);
-                btnOk = (Button) view.findViewById(R.id.btnOk);
-                tvNoti.setText("Hồ sơ của bạn sẽ được phê duyệt trong 24h");
-                btnOk.setText("Đồng ý");
-                btnOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        Intent intent = new Intent(UpdateCoachActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                    }
-                });
 
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.e("Fail", t.getLocalizedMessage() + "");
+                Toast.makeText(UpdateCoachActivity.this, "Không kết nối được sever", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    public byte[] getBytes(InputStream is) throws IOException {
-        ByteArrayOutputStream byteBuff = new ByteArrayOutputStream();
 
-        int buffSize = 1024;
-        byte[] buff = new byte[buffSize];
-
-        int len = 0;
-        while ((len = is.read(buff)) != -1) {
-            byteBuff.write(buff, 0, len);
-        }
-
-        return byteBuff.toByteArray();
-    }
 
     private void getSpinnerAddress() {
         String arr[] = {"Hà Nội", "Hồ Chí Minh", "Cần Thơ", "Đà Nẵng", "Hải Phòng"};

@@ -286,7 +286,7 @@ public class HomeFragment extends Fragment {
             public void run() {
                 getHotCoach();
             }
-        }, 4000);
+        }, 2000);
 
     }
 

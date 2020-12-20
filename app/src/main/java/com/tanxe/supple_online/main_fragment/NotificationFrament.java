@@ -51,12 +51,8 @@ public class NotificationFrament extends Fragment {
         initView(view);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("My Data", MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getNotification();
-            }
-        }, 3000);
+       getNotification();
+
         return view;
     }
 
@@ -71,8 +67,12 @@ public class NotificationFrament extends Fragment {
     private void getNotification() {
         notificationList = new ArrayList<>();
         notificationList.clear();
-
-        getAllNotification(username);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getAllNotification(username);
+            }
+        }, 2000);
         notificationAdapter = new NotificationAdapter(getContext(), notificationList);
         rcvListNotification.setAdapter(notificationAdapter);
         gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false);

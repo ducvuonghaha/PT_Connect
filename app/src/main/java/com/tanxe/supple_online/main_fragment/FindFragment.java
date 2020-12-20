@@ -59,12 +59,8 @@ public class FindFragment extends Fragment {
         initView(view);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("My Data", MODE_PRIVATE);
          id = sharedPreferences.getString("id", "");
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getCoachList();
-            }
-        }, 4000);
+        getCoachList();
+
         btnMatchProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,8 +107,12 @@ public class FindFragment extends Fragment {
     private void getCoachList() {
         coachList = new ArrayList<>();
         coachList.clear();
-
-        getAllCoach();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getAllCoach();
+            }
+        }, 4000);
         coachesAdapter = new CoachesAdapter(getContext(), coachList);
         rcvListCoachInFind.setAdapter(coachesAdapter);
         gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false);
