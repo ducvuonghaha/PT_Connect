@@ -21,6 +21,7 @@
             android:background="@color/colorBackgroundLighterBlack">
 
             <ImageView
+                android:id="@+id/btnBackFromDetailProduct"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_centerVertical="true"

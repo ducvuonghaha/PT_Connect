@@ -23,20 +23,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemes">
-        <activity android:name="com.tanxe.supple_online.screen.UpdateProfileUserActivity"></activity>
-        <activity android:name="com.tanxe.supple_online.screen.DetailProfileCoachActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.ReportActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.UpdatePasswordActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.VerifyForgotPassActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.VerifyPhoneNoActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.UpdateCoachActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.SeachProductActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.OrderActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.ProfileDetailActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.DetailProductActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.DetailNewsActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.MatchProfileActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.ProfileActivity" />
+        <activity android:name=".screen.MyOrderActivity"></activity>
+        <activity android:name=".screen.UpdateProfileUserActivity" />
+        <activity android:name=".screen.DetailProfileCoachActivity" />
+        <activity android:name=".screen.ReportActivity" />
+        <activity android:name=".screen.UpdatePasswordActivity" />
+        <activity android:name=".screen.VerifyForgotPassActivity" >
+
+        </activity>
+        <activity android:name=".screen.VerifyPhoneNoActivity" />
+        <activity android:name=".screen.UpdateCoachActivity" />
+        <activity android:name=".screen.SeachProductActivity" />
+        <activity android:name=".screen.ProfileDetailActivity" />
+        <activity android:name=".screen.DetailProductActivity" />
+        <activity android:name=".screen.DetailNewsActivity" />
+        <activity android:name=".screen.MatchProfileActivity" />
+        <activity android:name=".screen.ProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -50,24 +52,24 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.tanxe.supple_online.screen.YoutubeLessonVideoActivity"
+            android:name=".screen.YoutubeLessonVideoActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Transparent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name="com.tanxe.supple_online.screen.SuccessOrderActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.PaymentActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.CartActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.SearchActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.DetailCoachActivity" />
+        <activity android:name=".screen.SuccessOrderActivity" />
+        <activity android:name=".screen.PaymentActivity" />
+        <activity android:name=".screen.CartActivity" />
+        <activity android:name=".screen.SearchActivity" />
+        <activity android:name=".screen.DetailCoachActivity" />
         <activity
-            android:name="com.tanxe.supple_online.screen.HomeActivity"
+            android:name=".screen.HomeActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
-        <activity android:name="com.tanxe.supple_online.screen.SignUpActivity" />
-        <activity android:name="com.tanxe.supple_online.helper.BaseActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.LoginActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.SliderActivity" />
-        <activity android:name="com.tanxe.supple_online.screen.SplashActivity">
+        <activity android:name=".screen.SignUpActivity" />
+        <activity android:name=".helper.BaseActivity" />
+        <activity android:name=".screen.LoginActivity" />
+        <activity android:name=".screen.SliderActivity" />
+        <activity android:name=".screen.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -75,14 +77,14 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.tanxe.supple_online.firebase_service.MyFirebaseMessagingService">
+        <service android:name=".firebase_service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:name="com.tanxe.supple_online.firebase_service.CallNotificationAction" />
+        <receiver android:name=".firebase_service.CallNotificationAction" />
     </application>
 
 </manifest>

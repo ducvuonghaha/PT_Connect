@@ -24,10 +24,17 @@
 
     </LinearLayout>
 
+
+    <ProgressBar
+        android:layout_marginTop="50dp"
+        android:id="@+id/progressBarNoti"
+        android:layout_below="@+id/llTitleBarNotification"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/llTitleBarNotification"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:id="@+id/rcvListNotification"
         android:layout_width="match_parent"

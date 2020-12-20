@@ -20,7 +20,7 @@ import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.tanxe.supple_online.R;
 import com.tanxe.supple_online.model.User;
 import com.tanxe.supple_online.screen.LoginActivity;
-import com.tanxe.supple_online.screen.OrderActivity;
+import com.tanxe.supple_online.screen.MyOrderActivity;
 import com.tanxe.supple_online.screen.ProfileDetailActivity;
 import com.tanxe.supple_online.screen.ReportActivity;
 import com.tanxe.supple_online.service.UserService;
@@ -141,7 +141,7 @@ public class ProfileUserFragment extends Fragment {
                 if ( userList.size()==0){
                     return;
                 }else {
-                    Intent intent = new Intent(getContext(), OrderActivity.class);
+                    Intent intent = new Intent(getContext(), MyOrderActivity.class);
                     intent.putExtra("usernameOrder", userList.get(0).getUsername());
                     startActivity(intent);
                 }

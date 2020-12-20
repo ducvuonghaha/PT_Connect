@@ -1,14 +1,13 @@
 package com.tanxe.supple_online.screen;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.tanxe.supple_online.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,15 +18,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.tanxe.supple_online.helper.BaseActivity;
 
 import java.util.concurrent.TimeUnit;
 
-public class VerifyForgotPassActivity extends AppCompatActivity {
-    EditText edtVerifyForgotPass;
-    private Button btnVerify;
+import in.aabhasjindal.otptextview.OTPListener;
+import in.aabhasjindal.otptextview.OtpTextView;
+
+public class VerifyForgotPassActivity extends BaseActivity {
+
     String verificationCodeBySystem = "";
     private String phoneNo;
     private FirebaseAuth mAuth;
+    private OtpTextView otpTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +40,15 @@ public class VerifyForgotPassActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         phoneNo = getIntent().getStringExtra("phoneNo");
         sendVerificationToUser(phoneNo);
-        btnVerify.setOnClickListener(new View.OnClickListener() {
+        otpTextView.setOtpListener(new OTPListener() {
             @Override
-            public void onClick(View v) {
-                String code = edtVerifyForgotPass.getText().toString().trim();
-                if (code.isEmpty() || code.length() < 6) {
-                    edtVerifyForgotPass.setError("Wrong OTP...");
-                    edtVerifyForgotPass.requestFocus();
-                } else {
-                    verifyCode(code);
+            public void onInteractionListener() {
 
-                }
+            }
+
+            @Override
+            public void onOTPComplete(String otp) {
+                verifyCode(otp);
             }
         });
     }
@@ -61,8 +62,6 @@ public class VerifyForgotPassActivity extends AppCompatActivity {
                         .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
-
-
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -92,8 +91,7 @@ public class VerifyForgotPassActivity extends AppCompatActivity {
     }
 
     private void init() {
-        edtVerifyForgotPass = (EditText) findViewById(R.id.edtVerifyForgotPass);
-        btnVerify = (Button) findViewById(R.id.btnVerify);
+        otpTextView = findViewById(R.id.otp_view_forgot_password);
 
     }
     private void signUpUserByCredential(PhoneAuthCredential credential) {
@@ -106,7 +104,9 @@ public class VerifyForgotPassActivity extends AppCompatActivity {
                     intent.putExtra("PhoneNoRequest",phoneNo);
                     startActivity(intent);
                 } else {
-                    edtVerifyForgotPass.setError("Mời bạn kiểm tra lại mã");
+                    showMessegeError("Mời bạn kiểm tra lại mã");
+                    otpTextView.showError();
+                    otpTextView.resetState();
                 }
             }
         });

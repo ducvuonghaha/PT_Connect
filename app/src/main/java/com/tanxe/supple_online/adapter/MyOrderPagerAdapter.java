@@ -6,24 +6,25 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.tanxe.supple_online.profile_fragment.ProfileCoachFragment;
-import com.tanxe.supple_online.profile_fragment.ProfileUserFragment;
+import com.tanxe.supple_online.myorder_fragment.DeliveredOrderFragment;
+import com.tanxe.supple_online.myorder_fragment.DeliveringOrderFragment;
 
-public class ProfilePagerAdapter extends FragmentPagerAdapter {
-    public ProfilePagerAdapter(@NonNull FragmentManager fm) {
+public class MyOrderPagerAdapter extends FragmentPagerAdapter {
+
+    public MyOrderPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment=null;
-        switch (position){
+        Fragment fragment = null;
+        switch (position) {
             case 0:
-                fragment=new ProfileUserFragment();
+                fragment = new DeliveringOrderFragment();
                 break;
             case 1:
-                fragment=new ProfileCoachFragment();
+                fragment = new DeliveredOrderFragment();
                 break;
         }
         return fragment;
@@ -37,14 +38,13 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-
         String title = "";
         switch (position) {
             case 0:
-                title = "Hồ sơ học viên";
+                title = "Đang giao";
                 break;
             case 1:
-                title = "Hồ sơ HLV";
+                title = "Đã giao";
                 break;
         }
         return title;

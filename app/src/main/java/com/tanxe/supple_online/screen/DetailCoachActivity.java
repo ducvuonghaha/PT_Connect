@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +36,7 @@ public class DetailCoachActivity extends AppCompatActivity {
     private Button btnChat;
     private ImageButton btnCall;
     private CircleImageView imgCoach;
-
+    private ImageView btnBackFromDetailCoach;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +82,13 @@ public class DetailCoachActivity extends AppCompatActivity {
 
             }
         });
+
+        btnBackFromDetailCoach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -117,7 +125,6 @@ public class DetailCoachActivity extends AppCompatActivity {
         btnChat = (Button) findViewById(R.id.btnChat);
         btnCall = (ImageButton) findViewById(R.id.btnCall);
         imgCoach = findViewById(R.id.imgCoach);
-
-
+        btnBackFromDetailCoach = (ImageView) findViewById(R.id.btnBackFromDetailCoach);
     }
 }

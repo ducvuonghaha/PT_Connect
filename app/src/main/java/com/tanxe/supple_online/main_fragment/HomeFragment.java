@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.tanxe.supple_online.R;
 import com.tanxe.supple_online.adapter.CoachSuggestionsAdapter;
 import com.tanxe.supple_online.adapter.LessonsAdapter;
@@ -71,7 +73,9 @@ public class HomeFragment extends Fragment {
     private GridLayoutManager gridLayoutManager;
     private NestedScrollView scrollView_home;
     private LinearLayout llHeader,llYogaCoach,llSwimmingCoach,llGymCoach,llBoxingCoach,llMatchPT;
+    private ShimmerFrameLayout shimmer_view_container_suggested_coaches;
     String id;
+    final Handler handler = new Handler();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -188,6 +192,7 @@ public class HomeFragment extends Fragment {
         llGymCoach=view.findViewById(R.id.llGymCoach);
         llBoxingCoach=view.findViewById(R.id.llBoxingCoach);
         llMatchPT=view.findViewById(R.id.llMatchPT);
+        shimmer_view_container_suggested_coaches = (ShimmerFrameLayout) view.findViewById(R.id.shimmer_view_container_suggested_coaches);
     }
 
 
@@ -276,10 +281,16 @@ public class HomeFragment extends Fragment {
         rcvListSuggestionCoachHome.setNestedScrollingEnabled(false);
         rcvListSuggestionCoachHome.scheduleLayoutAnimation();
         coachesAdapter.notifyDataSetChanged();
-        getHotCaoch();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getHotCoach();
+            }
+        }, 4000);
+
     }
 
-    private void getHotCaoch(){
+    private void getHotCoach(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
@@ -304,10 +315,11 @@ public class HomeFragment extends Fragment {
                     if (coaches.get(i).getId().equals(id)){
                         coaches.remove(i);
                         break;
-
                     }
                 }
                 Log.e("Size",coaches.size()+"");
+                shimmer_view_container_suggested_coaches.stopShimmer();
+                shimmer_view_container_suggested_coaches.setVisibility(View.GONE);
                 coachList.addAll(coaches);
                 coachesAdapter.notifyDataSetChanged();
             }
@@ -317,6 +329,19 @@ public class HomeFragment extends Fragment {
                 Log.e("Failure",t.getLocalizedMessage()+"");
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        shimmer_view_container_suggested_coaches.startShimmer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        shimmer_view_container_suggested_coaches.stopShimmer();
+
     }
 }
 

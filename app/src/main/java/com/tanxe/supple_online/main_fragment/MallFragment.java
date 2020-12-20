@@ -3,8 +3,10 @@ package com.tanxe.supple_online.main_fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
@@ -21,8 +24,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.tanxe.supple_online.R;
 import com.tanxe.supple_online.adapter.ProductsAdapter;
+import com.tanxe.supple_online.adapter.SoldProductsAdapter;
 import com.tanxe.supple_online.dao.ProductInCartDAO;
 import com.tanxe.supple_online.mall_fragment.ClothesFragment;
 import com.tanxe.supple_online.mall_fragment.SuppleFragment;
@@ -33,6 +38,7 @@ import com.tanxe.supple_online.screen.SeachProductActivity;
 import com.tanxe.supple_online.service.ProductService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.tanxe.supple_online.service.SoldOutProductService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +55,7 @@ import static com.tanxe.supple_online.screen.LoginActivity.BASE_URL;
 
 public class MallFragment extends Fragment {
     ProductsAdapter productsAdapter;
+    SoldProductsAdapter soldProductsAdapter;
     List<Products> productsList;
     private Button btnMallSearch;
     private ImageButton btnMallCart;
@@ -56,13 +63,15 @@ public class MallFragment extends Fragment {
     private ViewFlipper vpFlipperImageMall;
     private GridLayoutManager gridLayoutManager;
     private RecyclerView rcvListHotProduct;
+    private RecyclerView rcvListSoldProduct;
     private LinearLayout llSuppleFragment;
     private LinearLayout llClothesFragment;
     private LinearLayout llToolsFragment;
-
-
-    ProductInCartDAO productInCartDAO;
-
+    private ShimmerFrameLayout shimmerFrameLayout;
+    private ShimmerFrameLayout shimmerFrameLayoutSold;
+    final Handler handler = new Handler();
+    private ProductInCartDAO productInCartDAO;
+    private List<Products> soldProductList;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,7 +85,13 @@ public class MallFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        getProduct();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getProduct();
+                getSoldProduct();
+            }
+        }, 4000);
         int images[] = {R.drawable.banner1, R.drawable.banner2, R.drawable.banner3};
         for (int image : images) {
             flipperImages(image);
@@ -115,6 +130,14 @@ public class MallFragment extends Fragment {
                 startActivity(new Intent(getContext(), SeachProductActivity.class));
             }
         });
+
+        rcvListSoldProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(), "OK", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 
@@ -138,6 +161,9 @@ public class MallFragment extends Fragment {
         tvMallNumberInCart = (TextView) view.findViewById(R.id.tvMallNumberInCart);
         vpFlipperImageMall = (ViewFlipper) view.findViewById(R.id.vpFlipperImageMall);
         rcvListHotProduct = (RecyclerView) view.findViewById(R.id.rcvListHotProduct);
+        rcvListSoldProduct = (RecyclerView) view.findViewById(R.id.rcvListSoldProduct);
+        shimmerFrameLayout = (ShimmerFrameLayout) view.findViewById(R.id.shimmer_view_container);
+        shimmerFrameLayoutSold = (ShimmerFrameLayout) view.findViewById(R.id.shimmer_view_container_sold);
     }
 
 
@@ -154,6 +180,21 @@ public class MallFragment extends Fragment {
         rcvListHotProduct.setNestedScrollingEnabled(false);
         rcvListHotProduct.scheduleLayoutAnimation();
         productsAdapter.notifyDataSetChanged();
+    }
+
+    private void getSoldProduct() {
+        soldProductList = new ArrayList<>();
+        soldProductList.clear();
+        getSoldProductFromServer();
+        soldProductsAdapter = new SoldProductsAdapter(getActivity().getBaseContext(), soldProductList);
+        rcvListSoldProduct.setAdapter(soldProductsAdapter);
+        gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.HORIZONTAL, false);
+        gridLayoutManager.setAutoMeasureEnabled(true);
+        rcvListSoldProduct.setLayoutManager(gridLayoutManager);
+        rcvListSoldProduct.setHasFixedSize(true);
+        rcvListSoldProduct.setNestedScrollingEnabled(false);
+        rcvListSoldProduct.scheduleLayoutAnimation();
+        soldProductsAdapter.notifyDataSetChanged();
     }
 
     private void getHotProduct() {
@@ -177,6 +218,8 @@ public class MallFragment extends Fragment {
             public void onResponse(Call<List<Products>> call, Response<List<Products>> response) {
                 productsList.clear();
                 List<Products> products = response.body();
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
                 productsList.addAll(products);
                 productsAdapter.notifyDataSetChanged();
             }
@@ -186,5 +229,55 @@ public class MallFragment extends Fragment {
                 Log.e("Failure", t.getLocalizedMessage() + "");
             }
         });
+    }
+
+
+    private void getSoldProductFromServer() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        SoldOutProductService soldOutProductService = retrofit.create(SoldOutProductService.class);
+        soldOutProductService.getAllSoldProducts().enqueue(new Callback<List<Products>>() {
+            @Override
+            public void onResponse(Call<List<Products>> call, Response<List<Products>> response) {
+                soldProductList.clear();
+                List<Products> products = response.body();
+                shimmerFrameLayoutSold.stopShimmer();
+                shimmerFrameLayoutSold.setVisibility(View.GONE);
+                soldProductList.addAll(products);
+                soldProductsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<Products>> call, Throwable t) {
+                Log.e("Failure", t.getLocalizedMessage() + "");
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        shimmerFrameLayout.startShimmer();
+        shimmerFrameLayoutSold.startShimmer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        shimmerFrameLayout.stopShimmer();
+        shimmerFrameLayoutSold.stopShimmer();
+
     }
 }

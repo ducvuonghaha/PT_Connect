@@ -3,6 +3,7 @@ package com.tanxe.supple_online.main_fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.tanxe.supple_online.R;
 import com.tanxe.supple_online.adapter.CoachesAdapter;
 import com.tanxe.supple_online.model.User;
@@ -47,7 +49,8 @@ public class FindFragment extends Fragment {
     private RecyclerView rcvListCoachInFind;
     private GridLayoutManager gridLayoutManager;
     private ImageView btnMatchProfile;
-
+    private ShimmerFrameLayout shimmer_view_container_coaches;
+    final Handler handler = new Handler();
     String id;
     @Nullable
     @Override
@@ -56,7 +59,12 @@ public class FindFragment extends Fragment {
         initView(view);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("My Data", MODE_PRIVATE);
          id = sharedPreferences.getString("id", "");
-        getCoachList();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getCoachList();
+            }
+        }, 4000);
         btnMatchProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +102,7 @@ public class FindFragment extends Fragment {
         edtNameHLV = (EditText) view.findViewById(R.id.edtNameHLV);
         rcvListCoachInFind = (RecyclerView) view.findViewById(R.id.rcvListCoachInFind);
         btnMatchProfile = (ImageView) view.findViewById(R.id.btnMatchProfile);
+        shimmer_view_container_coaches = (ShimmerFrameLayout) view.findViewById(R.id.shimmer_view_container_coaches);
     }
 
     private List<User> coachList;
@@ -102,6 +111,7 @@ public class FindFragment extends Fragment {
     private void getCoachList() {
         coachList = new ArrayList<>();
         coachList.clear();
+
         getAllCoach();
         coachesAdapter = new CoachesAdapter(getContext(), coachList);
         rcvListCoachInFind.setAdapter(coachesAdapter);
@@ -143,6 +153,8 @@ public class FindFragment extends Fragment {
                     }
                 }
                 Log.e("Size",coaches.size()+"");
+                shimmer_view_container_coaches.stopShimmer();
+                shimmer_view_container_coaches.setVisibility(View.GONE);
                 coachList.addAll(coaches);
                 coachesAdapter.notifyDataSetChanged();
             }
@@ -152,5 +164,18 @@ public class FindFragment extends Fragment {
                 Log.e("Failure",t.getLocalizedMessage()+"");
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        shimmer_view_container_coaches.startShimmer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        shimmer_view_container_coaches.stopShimmer();
+
     }
 }

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBlack"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="@color/colorBackgroundLighterBlack"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="15dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -19,50 +20,76 @@
 
             <TextView
                 android:id="@+id/tvTitleFindScreen"
-                android:textSize="26sp"
-                android:textColor="@color/colorWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="HLV phù hợp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="26sp" />
 
             <ImageView
                 android:id="@+id/btnMatchProfile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignRight="@+id/tvTitleFindScreen"
                 android:layout_weight="1"
-                android:src="@drawable/favorite_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:src="@drawable/favorite_button" />
 
         </RelativeLayout>
 
         <EditText
+            android:id="@+id/edtNameHLV"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginStart="40dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="40dp"
-            android:paddingStart="20dp"
-            android:id="@+id/edtNameHLV"
-            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:layout_marginBottom="10dp"
             android:layout_weight="7"
             android:background="@drawable/button_search"
-            android:textColorHint="@color/colorTextInSearch"
-            android:textColor="@color/colorWhite"
+            android:drawableStart="@drawable/ic_baseline_search_24"
             android:hint="Tìm kiếm huấn luyện viên..."
+            android:paddingStart="20dp"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorTextInSearch"
             android:textSize="15dp"
             android:textStyle="normal" />
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="20dp"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_marginStart="35dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/shimmer_view_container_coaches"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:shimmer_duration="1000">
+
+        <!--        Adding number of rows want to show when loading-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_coach_placeholder" />
+
+            <include layout="@layout/item_coach_placeholder" />
+
+            <include layout="@layout/item_coach_placeholder" />
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvListCoachInFind"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp" />
 
 </LinearLayout>

@@ -10,8 +10,6 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:background="@color/colorBlack"
         android:gravity="center"
         android:orientation="horizontal"
@@ -31,17 +29,19 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="15dp"
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <ImageView
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgAvatar"
             android:layout_width="105dp"
             android:layout_height="105dp"
@@ -49,9 +49,11 @@
             android:src="@drawable/ic_baseline_user_circle_24" />
 
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:gravity="center"
+            android:layout_marginBottom="10dp"
             android:layout_gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -60,17 +62,13 @@
                 android:id="@+id/tvFullnane_Coach"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:padding="8dp"
                 android:text="Nguyễn Tùng Lâm"
                 android:textColor="@color/colorBlack"
                 android:textSize="24dp"
                 android:textStyle="bold" />
             <TextView
                 android:textColor="@color/colorBlack"
-                android:layout_marginBottom="8dp"
-                android:padding="8dp"
                 android:textStyle="bold"
                 android:textSize="24dp"
                 android:layout_gravity="center"
@@ -101,15 +99,36 @@
             android:layout_margin="8dp"
             app:cardCornerRadius="16dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E3F8EB"
+                android:orientation="vertical"
+                android:paddingLeft="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="17dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_gravity="center"
+                    android:text="Chuyên môn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvSpecialize"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="8dp"
+                    android:text="Specialize"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="17dp" />
+
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -230,7 +249,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="100dp"
         android:text="Cập nhật thông tin"
         app:layout_constraintEnd_toEndOf="parent"

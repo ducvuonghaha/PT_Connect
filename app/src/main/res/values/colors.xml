@@ -14,4 +14,5 @@
     <color name="colorCardInHome">#2B2929</color>
     <color name="colorTextInSearch">#707070</color>
     <color name="colorGold">#ffcc33</color>
+    <color name="background">#DDDDDD</color>
 </resources>

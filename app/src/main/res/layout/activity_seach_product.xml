@@ -5,30 +5,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBlack"
     tools:context=".screen.SearchActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/colorBackgroundLighterBlack"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="9">
+            android:orientation="horizontal">
 
+
+            <ImageView
+                android:id="@+id/btnBackFromSearchProducts"
+                android:layout_marginStart="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_arrow_back_ios_24"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
 
             <EditText
+                android:layout_centerInParent="true"
                 android:paddingStart="20dp"
                 android:id="@+id/edtNameProduct"
-                android:layout_width="0dp"
+                android:layout_width="300dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:drawableStart="@drawable/ic_baseline_search_24"
-                android:layout_weight="7"
                 android:background="@drawable/button_search"
                 android:textColorHint="@color/colorTextInSearch"
                 android:textColor="@color/colorWhite"
@@ -38,11 +46,15 @@
 
 
 
-        </LinearLayout>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/rvSearchProduct"
+        android:verticalSpacing="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

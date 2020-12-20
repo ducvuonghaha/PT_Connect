@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:background="#C1ECA3"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="8dp"
+    app:cardCornerRadius="20dp"
+    android:orientation="vertical"
+    android:background="@drawable/background_cart"
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginStart="15dp"
     android:layout_height="wrap_content">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <ImageView
+        android:layout_marginStart="15dp"
         android:id="@+id/imgProductOrder"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +30,7 @@
         android:id="@+id/tvNameProductOrder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="BCAA Promax"
@@ -35,11 +40,11 @@
 
     <TextView
         android:textStyle="bold"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorRed"
         android:id="@+id/tvPriceOrder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:text="150.000 VND"
         app:layout_constraintStart_toEndOf="@+id/imgProductOrder"
@@ -69,19 +74,19 @@
         app:layout_constraintStart_toEndOf="@+id/tvQuantityOrder"
         app:layout_constraintTop_toBottomOf="@+id/tvPriceOrder"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/add" />
+        app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
 
     <ImageView
         android:id="@+id/imgSubQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toStartOf="@+id/tvQuantityOrder"
         app:layout_constraintStart_toEndOf="@+id/imgProductOrder"
         app:layout_constraintTop_toBottomOf="@+id/tvPriceOrder"
-        app:srcCompat="@drawable/ic_baseline_remove_24" />
+        app:srcCompat="@drawable/ic_baseline_remove_circle_outline_24" />
 
     <TextView
         android:textStyle="bold"
@@ -96,5 +101,5 @@
         app:layout_constraintEnd_toStartOf="@+id/imgAddQuantity"
         app:layout_constraintStart_toEndOf="@+id/imgSubQuantity"
         app:layout_constraintTop_toBottomOf="@+id/tvPriceOrder" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

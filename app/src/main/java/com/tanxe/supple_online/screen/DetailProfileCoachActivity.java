@@ -19,6 +19,7 @@ public class DetailProfileCoachActivity extends AppCompatActivity {
     private TextView tvBackground_Coach;
     private TextView tvAddressCoach;
     private TextView tvWorkplaceCoach;
+    private TextView tvSpecialize;
     private Button btnUpdateProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +33,15 @@ public class DetailProfileCoachActivity extends AppCompatActivity {
         String age=intent.getStringExtra("age");
         String imageProfile=intent.getStringExtra("imageProfile");
         String place=intent.getStringExtra("place");
+        String specialize=intent.getStringExtra("specialize");
 
         Picasso.get().load(imageProfile).into(imgAvatar);
         tvAddressCoach.setText(address);
-        tvAgeProfileCoach.setText("- "+age +" tuổi");
+        tvAgeProfileCoach.setText(age +" tuổi");
         tvBackground_Coach.setText(background);
         tvFullnane_Coach.setText(fullname);
         tvWorkplaceCoach.setText(place);
+        tvSpecialize.setText(specialize);
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +60,7 @@ public class DetailProfileCoachActivity extends AppCompatActivity {
         tvBackground_Coach = (TextView) findViewById(R.id.tvBackground_Coach);
         tvAddressCoach = (TextView) findViewById(R.id.tvAddress_Coach);
         tvWorkplaceCoach = (TextView) findViewById(R.id.tvWorkplace_Coach);
+        tvSpecialize = (TextView) findViewById(R.id.tvSpecialize);
         btnUpdateProfile = (Button) findViewById(R.id.btnUpdateProfile);
 
     }

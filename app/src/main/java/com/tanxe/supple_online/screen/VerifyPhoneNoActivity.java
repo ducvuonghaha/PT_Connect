@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.tanxe.supple_online.R;
+import com.tanxe.supple_online.helper.BaseActivity;
 import com.tanxe.supple_online.service.UserService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +31,8 @@ import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
+import in.aabhasjindal.otptextview.OTPListener;
+import in.aabhasjindal.otptextview.OtpTextView;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,13 +43,12 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static com.tanxe.supple_online.screen.LoginActivity.BASE_URL;
 
-public class VerifyPhoneNoActivity extends AppCompatActivity {
-    private EditText edtVerifyPhone;
-    private Button btnVerify;
+public class VerifyPhoneNoActivity extends BaseActivity {
+
     String verificationCodeBySystem = "";
     private String phoneNo;
     private FirebaseAuth mAuth;
-
+    private OtpTextView otpTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +58,16 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         phoneNo = getIntent().getStringExtra("phoneNo");
         sendVerificationToUser(phoneNo);
-        btnVerify.setOnClickListener(new View.OnClickListener() {
+
+        otpTextView.setOtpListener(new OTPListener() {
             @Override
-            public void onClick(View v) {
-                String code = edtVerifyPhone.getText().toString().trim();
-                if (code.isEmpty() || code.length()<6){
-                    edtVerifyPhone.setError("Wrong OTP...");
-                    edtVerifyPhone.requestFocus();
-                }else {
-                    verifyCode(code);
-                }
+            public void onInteractionListener() {
+
+            }
+
+            @Override
+            public void onOTPComplete(String otp) {
+                verifyCode(otp);
             }
         });
     }
@@ -157,6 +159,9 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                     }
 
                 } else {
+                    showMessegeError("Mời bạn kiểm tra lại mã");
+                    otpTextView.showError();
+                    otpTextView.resetState();
                     Log.e("Fail Verify", task.getException().getMessage() + "");
                 }
             }
@@ -164,8 +169,7 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
     }
 
     private void init() {
-        edtVerifyPhone = (EditText) findViewById(R.id.edtVerifyPhone);
-        btnVerify = (Button) findViewById(R.id.btnVerify);
+        otpTextView = (OtpTextView) findViewById(R.id.otp_view_sign_up);
     }
 
     private void signUpUser(String username, String password, String phone , String email, String fullname, String types,String status,String sex) {

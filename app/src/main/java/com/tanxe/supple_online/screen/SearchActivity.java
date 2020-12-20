@@ -1,11 +1,14 @@
 package com.tanxe.supple_online.screen;
 
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,7 +40,7 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView rvSearchHLV;
     List<User> coachList;
     CoachesAdapter coachesAdapter;
-
+    private ImageView btnBackFromSearchCoaches;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,13 +74,20 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
+
+        btnBackFromSearchCoaches.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initView() {
         coachList = new ArrayList<>();
         edtNameHLV = findViewById(R.id.edtNameHLV);
         rvSearchHLV = (RecyclerView) findViewById(R.id.rvSearchHLV);
-
+        btnBackFromSearchCoaches = (ImageView) findViewById(R.id.btnBackFromSearchCoaches);
     }
 
     private void getAllCoach() {

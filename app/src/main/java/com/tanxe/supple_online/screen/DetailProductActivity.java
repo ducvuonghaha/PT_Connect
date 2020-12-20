@@ -39,6 +39,7 @@ public class DetailProductActivity extends BaseActivity {
     private Button btnAddProduct;
     private AppCompatRatingBar ratingDetailProduct;
     private ProductInCartDAO productInCartDAO;
+    private ImageView btnBackFromDetailProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,12 @@ public class DetailProductActivity extends BaseActivity {
 
             }
         });
+        btnBackFromDetailProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initView() {
@@ -84,6 +91,7 @@ public class DetailProductActivity extends BaseActivity {
         tvDescriptionDetail = (TextView) findViewById(R.id.tvDescriptionDetail);
         btnAddProduct = (Button) findViewById(R.id.btnAddProduct);
         ratingDetailProduct = (AppCompatRatingBar) findViewById(R.id.ratingDetailProduct);
+        btnBackFromDetailProduct = (ImageView) findViewById(R.id.btnBackFromDetailProduct);
     }
 
 

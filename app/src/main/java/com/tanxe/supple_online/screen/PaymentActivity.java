@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.tanxe.supple_online.R;
 import com.tanxe.supple_online.adapter.CartAdapter;
+import com.tanxe.supple_online.adapter.CartInPaymentAdapter;
 import com.tanxe.supple_online.dao.ProductInCartDAO;
 import com.tanxe.supple_online.helper.BaseActivity;
 import com.tanxe.supple_online.model.Cart;
@@ -56,7 +57,7 @@ public class PaymentActivity extends BaseActivity {
     public TextView tvSumPrice;
     private Button btnPayment;
     RadioButton rdbConfirm;
-    CartAdapter orderAdapter;
+    CartInPaymentAdapter orderAdapter;
     List<User> userList;
 
     @Override
@@ -71,7 +72,7 @@ public class PaymentActivity extends BaseActivity {
         rdbConfirm.setChecked(true);
         rdbConfirm.setClickable(false);
         productsInCartList = productInCartDAO.getAllProductCart(productInCartDAO.getUsername());
-        orderAdapter = new CartAdapter(this, productsInCartList);
+        orderAdapter = new CartInPaymentAdapter(this, productsInCartList);
         rvPayment.setLayoutManager(new LinearLayoutManager(this));
         rvPayment.setAdapter(orderAdapter);
         NumberFormat formatter = new DecimalFormat("#,###");
@@ -108,7 +109,7 @@ public class PaymentActivity extends BaseActivity {
                         Log.e("username", username);
                         Date currentTime = Calendar.getInstance().getTime();
                         Carts carts = new Carts(username, cartList, edtPhonePayment.getText().toString(), edtFullNamePayment.getText().toString(),
-                                edtAddressPayment.getText().toString(), (currentTime), productInCartDAO.getTongTien(productInCartDAO.getUsername()));
+                                edtAddressPayment.getText().toString(), (currentTime), productInCartDAO.getTongTien(productInCartDAO.getUsername()), "Đang giao");
                         upCart(carts);
                     }
                 }
@@ -191,6 +192,8 @@ public class PaymentActivity extends BaseActivity {
                 Log.e("Fail", t.getLocalizedMessage() + "");
             }
         });
+
+
     }
 
     private void initView() {

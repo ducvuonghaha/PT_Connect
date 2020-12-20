@@ -31,30 +31,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
-    <EditText
-        android:id="@+id/edtVerifyPhone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="Mời bạn nhập mã"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <Button
-        android:id="@+id/btnVerify"
+    <in.aabhasjindal.otptextview.OtpTextView
+        android:id="@+id/otp_view_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="160dp"
-        android:background="@drawable/button_login"
-        android:text="Xác nhận"
+        app:bar_inactive_color="#0C530F"
+        app:bar_active_color="#03B30A"
+        android:textColor="@color/black"
+        android:layout_marginTop="40dp"
+        app:height="40dp"
+        app:width="40dp"
+        app:bar_enabled="true"
+        app:bar_height="2dp"
+        app:length="6"
+        app:bar_error_color="@color/colorRed"
+        app:otp_text_size="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtVerifyPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

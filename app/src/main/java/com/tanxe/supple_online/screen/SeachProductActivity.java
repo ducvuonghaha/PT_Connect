@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -36,6 +38,7 @@ public class SeachProductActivity extends AppCompatActivity {
     private RecyclerView rvSearchProduct;
     private List<Products> productsList;
     private ProductsAdapter productsAdapter;
+    private ImageView btnBackFromSearchProducts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,11 +72,19 @@ public class SeachProductActivity extends AppCompatActivity {
 
             }
         });
+
+        btnBackFromSearchProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void init() {
         edtNameProduct = (EditText) findViewById(R.id.edtNameProduct);
         rvSearchProduct = (RecyclerView) findViewById(R.id.rvSearchProduct);
+        btnBackFromSearchProducts = (ImageView) findViewById(R.id.btnBackFromSearchProducts);
 
     }
 

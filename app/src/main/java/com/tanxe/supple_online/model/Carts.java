@@ -38,6 +38,10 @@ public class Carts {
     @Expose
     private String phone;
 
+    @SerializedName("Status")
+    @Expose
+    private String status;
+
     public String getPhone() {
         return phone;
     }
@@ -66,6 +70,17 @@ public class Carts {
         this.cart = cart;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Integer getV() {
         return v;
@@ -94,6 +109,7 @@ public class Carts {
     public Date getDateCart() {
         return dateCart;
     }
+
     public Double getTotalPrice() {
         return totalPrice;
     }
@@ -106,14 +122,15 @@ public class Carts {
         this.dateCart = dateCart;
     }
 
-    public Carts(String username, List<Cart> cart, String phone, String recipients, String receivingAddress, Date dateCart, Double totalPrice) {
+    public Carts(String username, List<Cart> cart, String phone, String recipients, String receivingAddress, Date dateCart, Double totalPrice, String status) {
         this.username = username;
         this.cart = cart;
         this.recipients = recipients;
         this.receivingAddress = receivingAddress;
         this.dateCart = dateCart;
         this.totalPrice = totalPrice;
-        this.phone=phone;
+        this.phone = phone;
+        this.status = status;
     }
 
     public Carts() {

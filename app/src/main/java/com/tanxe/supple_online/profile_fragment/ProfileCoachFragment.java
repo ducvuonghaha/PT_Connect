@@ -26,7 +26,7 @@ import com.tanxe.supple_online.R;
 import com.tanxe.supple_online.model.User;
 import com.tanxe.supple_online.screen.DetailProfileCoachActivity;
 import com.tanxe.supple_online.screen.LoginActivity;
-import com.tanxe.supple_online.screen.OrderActivity;
+import com.tanxe.supple_online.screen.MyOrderActivity;
 import com.tanxe.supple_online.screen.ReportActivity;
 import com.tanxe.supple_online.screen.UpdateCoachActivity;
 import com.tanxe.supple_online.service.UserService;
@@ -106,6 +106,10 @@ public class ProfileCoachFragment extends Fragment {
                     String age = userList.get(0).getAge();
                     String imageProfile=userList.get(0).getImageProfile();
                     String place=userList.get(0).getWorkplace();
+                    String specialize = "";
+                    for(int i = 0;i<userList.get(0).getSpecialized().size();i++) {
+                        specialize += userList.get(0).getSpecialized().get(i);
+                    }
 
                     Intent intent=new Intent(getContext(), DetailProfileCoachActivity.class);
                     intent.putExtra("fullname",fullname);
@@ -114,6 +118,7 @@ public class ProfileCoachFragment extends Fragment {
                     intent.putExtra("age",age);
                     intent.putExtra("imageProfile",BASE_URL + "/public/" +imageProfile);
                     intent.putExtra("place",place);
+                    intent.putExtra("specialize",specialize);
                     startActivity(intent);
                 }
 
@@ -177,7 +182,7 @@ public class ProfileCoachFragment extends Fragment {
                 if (userList.size()==0){
                     return;
                 }else {
-                    Intent intent=new Intent(getContext(), OrderActivity.class);
+                    Intent intent=new Intent(getContext(), MyOrderActivity.class);
                     intent.putExtra("usernameOrder",userList.get(0).getUsername());
                     startActivity(intent);
                 }
@@ -210,9 +215,9 @@ public class ProfileCoachFragment extends Fragment {
 
     private void init(View view) {
         tvNameProfile = (TextView) view.findViewById(R.id.tvNameProfile);
-        tvSpecialized = (TextView) view.findViewById(R.id.tvSpecialized);
+//        tvSpecialized = (TextView) view.findViewById(R.id.tvSpecialized);
         tvNotification = (TextView) view.findViewById(R.id.tvNotification);
-        tvAddress = (TextView) view.findViewById(R.id.tvAddress);
+//        tvAddress = (TextView) view.findViewById(R.id.tvAddress);
         nesAll = view.findViewById(R.id.nesAll);
         llUpdate = view.findViewById(R.id.llUpdate);
         llMyOrder = view.findViewById(R.id.llMyOrder);
@@ -283,12 +288,12 @@ public class ProfileCoachFragment extends Fragment {
                 if (userList.get(0).getType().equals("Coach") && userList.get(0).getStatus().equals("Updated")) {
                     llUpdate.setVisibility(View.GONE);
                     tvNameProfile.setText(userList.get(0).getFullname());
-                    tvAddress.setText(userList.get(0).getAddress());
-                    String specialized = "";
-                    for (int i = 0; i < userList.get(0).getSpecialized().size(); i++) {
-                        specialized += userList.get(0).getSpecialized().get(i) + "";
-                    }
-                    tvSpecialized.setText(specialized);
+//                    tvAddress.setText(userList.get(0).getAddress());
+//                    String specialized = "";
+//                    for (int i = 0; i < userList.get(0).getSpecialized().size(); i++) {
+//                        specialized += userList.get(0).getSpecialized().get(i) + "";
+//                    }
+//                    tvSpecialized.setText(specialized);
                     Picasso.get().load(BASE_URL + "/public/" + userList.get(0).getImageProfile()).into(imgCoachProfile);
                     swStatus.setChecked(true);
                 } else if (userList.get(0).getType().equals("Coach") && userList.get(0).getStatus().equals("None")) {
@@ -297,12 +302,12 @@ public class ProfileCoachFragment extends Fragment {
                 } else if (userList.get(0).getType().equals("Coach") && userList.get(0).getStatus().equals("OFF")) {
                     llUpdate.setVisibility(View.GONE);
                     tvNameProfile.setText(userList.get(0).getFullname());
-                    tvAddress.setText(userList.get(0).getAddress());
-                    String specialized = "";
-                    for (int i = 0; i < userList.get(0).getSpecialized().size(); i++) {
-                        specialized += userList.get(0).getSpecialized().get(i) + " , ";
-                    }
-                    tvSpecialized.setText(specialized);
+//                    tvAddress.setText(userList.get(0).getAddress());
+//                    String specialized = "";
+//                    for (int i = 0; i < userList.get(0).getSpecialized().size(); i++) {
+//                        specialized += userList.get(0).getSpecialized().get(i) + " , ";
+//                    }
+//                    tvSpecialized.setText(specialized);
                     Picasso.get().load(BASE_URL + "/public/" + userList.get(0).getImageProfile()).into(imgCoachProfile);
                     swStatus.setChecked(false);
                 } else {

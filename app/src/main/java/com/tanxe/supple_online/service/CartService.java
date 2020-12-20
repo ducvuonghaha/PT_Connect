@@ -18,4 +18,10 @@ public interface CartService {
 
     @GET("/getCart")
     Call<List<Carts>> getAllOrder(@Query("Username") String username);
+
+    @GET("/getDeliveringCart")
+    Call<List<Carts>> getAllOrderDelivering(@Query("Username") String username);
+
+    @GET("/getDeliveredCart")
+    Call<List<Carts>> getAllOrderDelivered(@Query("Username") String username);
 }

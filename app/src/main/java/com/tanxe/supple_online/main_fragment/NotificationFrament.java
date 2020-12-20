@@ -2,10 +2,12 @@ package com.tanxe.supple_online.main_fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,28 +41,37 @@ public class NotificationFrament extends Fragment {
 
     private RecyclerView rcvListNotification;
     private GridLayoutManager gridLayoutManager;
-
+    private ProgressBar progressBarNoti;
+    final Handler handler = new Handler();
+    String username;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
         initView(view);
-        getNotification();
-
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("My Data", MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getNotification();
+            }
+        }, 3000);
         return view;
     }
 
     private void initView(View view) {
         rcvListNotification = (RecyclerView) view.findViewById(R.id.rcvListNotification);
+        progressBarNoti = (ProgressBar) view.findViewById(R.id.progressBarNoti);
     }
 
     private List<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
+
     private void getNotification() {
         notificationList = new ArrayList<>();
         notificationList.clear();
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("My Data", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "");
+
         getAllNotification(username);
         notificationAdapter = new NotificationAdapter(getContext(), notificationList);
         rcvListNotification.setAdapter(notificationAdapter);
@@ -92,10 +103,11 @@ public class NotificationFrament extends Fragment {
         notificationService.getAllNotification(username).enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
-              List<Notification> notificationLists=new ArrayList<>();
-              notificationLists=response.body();
-              notificationList.addAll(notificationLists);
-              notificationAdapter.notifyDataSetChanged();
+                List<Notification> notificationLists = new ArrayList<>();
+                notificationLists = response.body();
+                progressBarNoti.setVisibility(View.GONE);
+                notificationList.addAll(notificationLists);
+                notificationAdapter.notifyDataSetChanged();
             }
 
             @Override

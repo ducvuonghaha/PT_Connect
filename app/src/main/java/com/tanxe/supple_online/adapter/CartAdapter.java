@@ -52,13 +52,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHoler> {
         holder.tvPriceOrder.setText(formatter.format((list.get(position).getPrice())) + " VNĐ");
         holder.tvQuantityOrder.setText(String.valueOf(list.get(position).getQuantity()));
         Picasso.get().load(list.get(position).getImage()).into(holder.imgProductOrder);
+        quantity = Integer.parseInt(holder.tvQuantityOrder.getText().toString());
+
         holder.imgAddQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (quantity==5){
                     Toast.makeText(context, "Chỉ có thể chọn tối đa 5 sản phẩm", Toast.LENGTH_SHORT).show();
                 }else {
-                    quantity = Integer.parseInt(holder.tvQuantityOrder.getText().toString());
                     quantity++;
                     long result = productInCartDAO.updateProductCartAmount(new ProductsInCart(quantity), list.get(position).getProductname());
                     if (result == 1) {
@@ -88,7 +90,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHoler> {
                 if (quantity==1){
                     Toast.makeText(context, "Phải có it nhất 1 sản phẩm", Toast.LENGTH_SHORT).show();
                 }else {
-                    quantity = Integer.parseInt(holder.tvQuantityOrder.getText().toString());
+//                    quantity = Integer.parseInt(holder.tvQuantityOrder.getText().toString());
                     quantity--;
                     long result = productInCartDAO.updateProductCartAmount(new ProductsInCart(quantity), list.get(position).getProductname());
                     if (result == 1) {
