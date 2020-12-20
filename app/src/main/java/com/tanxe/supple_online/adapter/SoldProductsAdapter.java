@@ -46,7 +46,7 @@ public class SoldProductsAdapter extends RecyclerView.Adapter<SoldProductsAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final Holder holder, int position) {
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.products = productList.get(position);
         holder.tvTitleNew.setText(holder.products.getProductName());
 //        holder.tvPriceProduct.setText(Config.decimalFormat.format((holder.products.getPrice())) + " Đ");
